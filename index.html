@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StrefaPremii.pl - Najlepsze promocje bankowe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* RESET I PODSTAWY - DARK MODE */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #e2e8f0; line-height: 1.6; }
+        
+        /* NAWIGACJA */
+        header { background: #1e293b; padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3); position: sticky; top: 0; z-index: 100; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: #38bdf8; text-decoration: none; }
+        .logo span { color: #4ade80; }
+        
+        /* HERO SECTION - DARK MODE */
+       .hero { 
+            background: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.9)), 
+                        url('hero.jpg') no-repeat center center / cover;
+            color: #fff; padding: 100px 5% 120px; text-align: center; 
+        }
+
+
+        .hero h1 { font-size: 2.5rem; margin-bottom: 1rem; color: #fff; }
+        .hero p { font-size: 1.1rem; color: #cbd5e1; max-width: 700px; margin: 0 auto 2rem; }
+        
+        /* GŁÓWNY PRZYCISK CTA */
+        .cta-button { 
+            background: #22c55e; color: white; padding: 15px 30px; border-radius: 8px; text-decoration: none; font-weight: 600; 
+            transition: all 0.3s ease; display: inline-block; box-shadow: 0 4px 14px 0 rgba(34, 197, 94, 0.3); 
+        }
+        .cta-button:hover { transform: translateY(-3px); background: #16a34a; box-shadow: 0 6px 20px 0 rgba(34, 197, 94, 0.4); }
+
+        /* KONTENER NA OFERTY */
+        .container { max-width: 1200px; margin: -40px auto 40px; padding: 0 20px; }
+        .section-title { margin-bottom: 2rem; text-align: center; color: #fff; }
+
+        /* GRID DLA KART */
+        .offers-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
+
+        /* ========================================================
+           SPECIFIC BANK CARD STYLES - NOWY STYL DLA KARTY BANKU
+           ======================================================== */
+        .bank-card { 
+            background: #1e293b; padding: 30px; border-radius: 16px; text-align: center; 
+            border: 1px solid #334155; transition: border-color 0.3s ease, box-shadow 0.3s ease; 
+            display: flex; flex-direction: column; justify-content: space-between; /* Układ pionowy */
+        }
+        .bank-card:hover { border-color: #38bdf8; box-shadow: 0 0 15px rgba(56, 189, 248, 0.1); }
+
+        /* Kontener Logo */
+        .bank-logo-container { margin-bottom: 20px; height: 50px; display: flex; align-items: center; justify-content: center; }
+        .bank-logo { max-height: 100%; max-width: 180px; filter: drop-shadow(0 0 5px rgba(56, 189, 248, 0.3)); /* Stylized Glow */ }
+
+        /* Szczegóły oferty */
+        .card-details { flex-grow: 1; margin-bottom: 25px; }
+        .promo-label { color: #4ade80; font-size: 0.8rem; text-transform: uppercase; font-weight: 600; letter-spacing: 1px; margin-bottom: 5px; }
+        
+        .bonus-amount { font-size: 2rem; font-weight: 700; color: #fff; margin-bottom: 15px; display: flex; align-items: baseline; justify-content: center; gap: 5px;}
+        .bonus-amount span { font-size: 1rem; color: #cbd5e1; font-weight: 400; }
+
+        /* Punkty kluczowe (subtelna lista) */
+        .key-points { list-style: none; text-align: left; padding: 0; font-size: 0.9rem; color: #94a3b8; }
+        .key-points li { margin-bottom: 8px; position: relative; padding-left: 20px; }
+        .key-points li::before { content: '✓'; position: absolute; left: 0; color: #4ade80; }
+
+        /* PRZYCISK NA KARCIE - MNIEJSZY, DOSTOSOWANY DO DARK MODE */
+        .cta-button-small { 
+            background: transparent; border: 2px solid #22c55e; color: #4ade80; padding: 12px 25px; 
+            border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; display: block; width: 100%; 
+        }
+        .cta-button-small:hover { background: #22c55e; color: #fff; }
+
+        /* STOPKA */
+        footer { background: #020617; color: #64748b; padding: 60px 5% 40px; font-size: 0.9rem; text-align: center; border-top: 1px solid #1e293b; }
+        .disclaimer { max-width: 800px; margin: 20px auto; font-size: 0.8rem; line-height: 1.4; }
+
+        /* RESPONSYWNOŚĆ (MOBILE) */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 1.8rem; }
+.offers-grid { 
+    display: grid; 
+    /* Zmieniamy auto-fit na auto-fill i dodajemy ścisły zakres szerokości */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 350px)); 
+    gap: 25px; 
+    justify-content: center; /* To wyśrodkuje karty na ekranie */
+}                              /* .offers-grid { grid-template-columns: 1fr; */ /* Na telefonie jedna kolumna */ }
+            .bonus-amount { font-size: 1.8rem; }
+        }
+
+
+/* --- OPTYMALIZACJA POD SMARTFONY --- */
+
+@media (max-width: 600px) {
+    /* 1. Nagłówek i Hero */
+    .hero {
+        padding: 60px 20px 80px; /* Mniejszy margines na mobile */
+    }
+    .hero h1 {
+        font-size: 1.8rem; /* Czytelniejszy rozmiar na telefonie */
+    }
+    
+    /* 2. Grid kart */
+    .offers-grid {
+        /* Na małych ekranach wymuszamy jedną kolumnę i usuwamy sztywne 350px */
+        grid-template-columns: 1fr; 
+        max-width: 100%;
+        gap: 15px; /* Mniejsze przerwy między kartami */
+    }
+
+    /* 3. Karta banku na mobile */
+    .bank-card {
+        padding: 20px; /* Mniejszy padding wewnętrzny */
+        margin: 0 auto;
+        width: 100%; /* Karta zajmuje całą szerokość ekranu minus marginesy */
+    }
+
+    .bonus-amount {
+        font-size: 1.6rem; /* Trochę mniejsza kwota, by nie uciekała z linii */
+    }
+
+    /* 4. Touch Targets - przyciski pod kciuk */
+    .cta-button-small {
+        padding: 18px 20px; /* Wyższy przycisk, łatwiej kliknąć kciukiem */
+        font-size: 1.1rem;
+    }
+}
+
+/* Dodatkowa poprawka dla bardzo małych ekranów (poniżej 360px) */
+@media (max-width: 360px) {
+    .bank-logo-container div {
+        font-size: 1.2rem !important; /* Zmniejszamy tekstowe logo, by się nie łamało */
+    }
+}
+
+
+    </style>
+</head>
+<body>
+
+
+<script>
+    var password = prompt("Strona testowa. Podaj hasło:");
+    
+    if (password === "wafelux12!") {
+      // Jeśli hasło OK, pokazujemy body
+      document.body.style.display = "block";
+    } else {
+      // Jeśli złe, zostawiamy ukryte i dajemy info
+      alert("Błędne hasło!");
+      document.body.innerHTML = "Brak dostępu.";
+      document.body.style.display = "block";
+      window.stop();
+    }
+  </script>
+
+    <header>
+        <a href="#" class="logo">Strefa<span>Premii</span>.pl</a>
+    </header>
+
+    <section class="hero">
+        <h1>Zarabiaj na otwieraniu kont bankowych</h1>
+        <p>Porównujemy aktualne promocje w PKO BP, mBank, Velo i innych. Odbierz nawet 650 zł premii za jedno konto!</p>
+        <a href="#promocje" class="cta-button">Sprawdź ranking marzec 2026</a>
+    </section>
+
+    <main class="container" id="promocje">
+        <h2 class="section-title">Aktualne promocje bankowe</h2>
+        
+        <div class="offers-grid">
+            
+            <div class="bank-card">
+                
+              <!--  <div class="bank-logo-container">
+                    <img src="https://via.placeholder.com/180x50/1e293b/4ade80?text=Velo+Bank" alt="VeloBank Logo" class="bank-logo">
+                </div>  -->
+
+<div class="bank-logo-container">
+    <div style="font-family: 'Inter', sans-serif; font-weight: 800; font-size: 1.6rem; letter-spacing: -1px; color: #fff;">
+        <span style="color: #4ade80;">Velo</span>Bank
+    </div>
+</div>
+
+                <div class="card-details">
+                    <p class="promo-label">Promocja mobilna</p>
+                    <h3 class="bonus-amount">do 650 zł <span>premii</span></h3>
+                    <ul class="key-points">
+                        <li>Za otwarcie VeloKonta przez aplikację</li>
+                        <li>Wpływy min. 2000 zł/mies.</li>
+                        <li>Zwrot 10% za zakupy (cashback)</li>
+                    </ul>
+                </div>
+
+                <div class="card-action">
+                    <a href="TWÓJ_LINK_AFILIACYJNY_DLA_VELOBANK" class="cta-button-small" target="_blank" rel="noopener noreferrer">
+                        Odbierz premię
+                    </a>
+                </div>
+            </div>
+            </div>
+  
+
+              <div class="bank-card">
+                
+                <div class="bank-logo-container">
+                    <div style="font-family: 'Inter', sans-serif; font-weight: 800; font-size: 1.6rem; letter-spacing: -1px; color: #fff;">
+                        m<span style="color: #ff0055;">B</span><span style="color: #b134eb;">a</span><span style="color: #ff0055;">n</span>k
+                    </div>
+                </div>
+
+                <div class="card-details">
+                    <p class="promo-label" style="color: #ff0055;">Promocja dla młodych (18-24 lata)</p>
+                    <h3 class="bonus-amount">do 500 zł <span>premii</span></h3>
+                    <ul class="key-points">
+                        <li>Otwarcie eKonta osobistego</li>
+                        <li>5 transakcji kartą/BLIK mies.</li>
+                        <li>Dodatkowe 100 zł za otwarcie przez selfie/eDO</li>
+                    </ul>
+                </div>
+
+              <!--  <div class="card-action">
+                    <a href="TWÓJ_LINK_AFILIACYJNY_DLA_MBANKU" class="cta-button-small" target="_blank" rel="noopener noreferrer" style="border-color: #ff0055; color: #ff0055;">
+                        Odbierz premię
+                    </a>
+                </div> -->
+
+<div class="card-action">
+<style>
+    .cta-mbank:hover {
+        background: #ff0055 !important;
+        color: #fff !important;
+    }
+</style>
+
+<a href="LINK" class="cta-button-small cta-mbank" style="border-color: #ff0055; color: #ff0055;">
+    Odbierz premię
+</a>
+</div>
+
+            </div>
+
+<div class="bank-card">
+                
+                <div class="bank-logo-container">
+                    <div style="font-family: 'Inter', sans-serif; font-weight: 800; font-size: 1.4rem; letter-spacing: -0.5px; color: #fff; display: flex; align-items: center; gap: 8px;">
+                        <div style="background: #e01b22; width: 4px; height: 24px; border-radius: 2px;"></div>
+                        PKO BANK POLSKI
+                    </div>
+                </div>
+
+                <div class="card-details">
+                    <p class="promo-label" style="color: #38bdf8;">Promocja: Konto za Zero</p>
+                    <h3 class="bonus-amount">do 300 zł <span>premii</span></h3>
+                    <ul class="key-points">
+                        <li>Premia za otwarcie konta z kodem</li>
+                        <li>Łatwe warunki: transakcje BLIK</li>
+                        <li>Darmowe prowadzenie konta</li>
+                    </ul>
+                </div>
+
+                <div class="card-action">
+                    <a href="TWÓJ_LINK_AFILIACYJNY_DLA_PKO_BP" class="cta-button-small cta-pko" style="border-color: #38bdf8; color: #38bdf8;">
+                        Odbierz premię
+                    </a>
+                </div>
+            </div>
+
+            <style>
+                .cta-pko:hover {
+                    background: #38bdf8 !important;
+                    color: #fff !important;
+                }
+            </style>
+
+<div class="bank-card">
+                
+                <div class="bank-logo-container">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div style="position: relative; width: 30px; height: 30px; background: #e01b22; border-radius: 4px; display: flex; align-items: center; justify-content: center;">
+                            <div style="width: 14px; height: 8px; border: 3px solid white; border-top: none; border-radius: 0 0 10px 10px;"></div>
+                        </div>
+                        <div style="font-family: 'Inter', sans-serif; font-weight: 800; font-size: 1.4rem; color: #fff; letter-spacing: -0.5px;">
+                            Pekao <span style="font-weight: 400; font-size: 0.9rem; opacity: 0.8;">S.A.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-details">
+                    <p class="promo-label" style="color: #e01b22;">Promocja: Otwórz Konto na selfie</p>
+                    <h3 class="bonus-amount">200 zł <span>gotówki</span></h3>
+                    <ul class="key-points">
+                        <li>8% na koncie oszczędnościowym</li>
+                        <li>Darmowa karta i wypłaty z bankomatów</li>
+                        <li>Prosta weryfikacja tożsamości w aplikacji</li>
+                    </ul>
+                </div>
+
+                <div class="card-action">
+                    <a href="TWÓJ_LINK_AFILIACYJNY_DLA_PKO_SA" class="cta-button-small cta-pekao" style="border-color: #e01b22; color: #e01b22;">
+                        Odbierz premię
+                    </a>
+                </div>
+            </div>
+
+            <style>
+                .cta-pekao:hover {
+                    background: #e01b22 !important;
+                    color: #fff !important;
+                }
+            </style>
+
+<div class="bank-card">
+                
+                <div class="bank-logo-container">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="display: grid; grid-template-columns: repeat(2, 6px); gap: 3px;">
+                            <div style="width: 6px; height: 6px; background: #00965e; border-radius: 1px;"></div>
+                            <div style="width: 6px; height: 6px; background: #00965e; border-radius: 1px;"></div>
+                            <div style="width: 6px; height: 6px; background: #00965e; border-radius: 1px;"></div>
+                            <div style="width: 6px; height: 6px; background: #00965e; border-radius: 1px;"></div>
+                        </div>
+                        <div style="font-family: 'Inter', sans-serif; font-weight: 700; font-size: 1.3rem; color: #fff; letter-spacing: -0.5px;">
+                            BNP PARIBAS
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-details">
+                    <p class="promo-label" style="color: #00965e;">Promocja: Zgarnij Premie</p>
+                    <h3 class="bonus-amount">nawet 520 zł <span>premii</span></h3>
+                    <ul class="key-points">
+                        <li>Premia wypłacana w gotówce</li>
+                        <li>Proste płatności kartą i BLIK</li>
+                        <li>Darmowe prowadzenie konta (warunkowo)</li>
+                    </ul>
+                </div>
+
+                <div class="card-action">
+                    <a href="TWÓJ_LINK_AFILIACYJNY_DLA_BNP" class="cta-button-small cta-bnp" style="border-color: #00965e; color: #00965e;">
+                        Odbierz nagrodę
+                    </a>
+                </div>
+            </div>
+
+            <style>
+                .cta-bnp:hover {
+                    background: #00965e !important;
+                    color: #fff !important;
+                }
+            </style>
+
+
+<div class="bank-card">
+                
+                <div class="bank-logo-container">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div style="width: 12px; height: 12px; background: #ec0000; border-radius: 50%;"></div>
+                        <div style="font-family: 'Inter', sans-serif; font-weight: 700; font-size: 1.4rem; color: #fff; letter-spacing: -0.5px;">
+                            Santander
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-details">
+                    <p class="promo-label" style="color: #ec0000;">Promocja: Konto Jakie Chcę</p>
+                    <h3 class="bonus-amount">do 600 zł <span>korzyści</span></h3>
+                    <ul class="key-points">
+                        <li>Premia gotówkowa na start</li>
+                        <li>Bony do popularnych sklepów</li>
+                        <li>Zwroty za rachunki domowe</li>
+                    </ul>
+                </div>
+
+                <div class="card-action">
+                    <a href="TWÓJ_LINK_AFILIACYJNY_DLA_SANTANDER" class="cta-button-small cta-santander" style="border-color: #ec0000; color: #ec0000;">
+                        Odbierz bonus
+                    </a>
+                </div>
+            </div>
+
+            <style>
+                .cta-santander:hover {
+                    background: #ec0000 !important;
+                    color: #fff !important;
+                }
+            </style>
+
+
+
+<div class="bank-card">
+                
+                <div class="bank-logo-container">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="width: 24px; height: 24px; border: 2px solid #a31a32; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <div style="width: 8px; height: 8px; background: #c1a46e; border-radius: 50%;"></div>
+                        </div>
+                        <div style="font-family: 'Inter', sans-serif; font-weight: 700; font-size: 1.4rem; color: #fff; letter-spacing: -0.5px;">
+                            Alior <span style="color: #c1a46e; font-weight: 400;">Bank</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-details">
+                    <p class="promo-label" style="color: #c1a46e;">Promocja: Konto Jakże Osobiste</p>
+                    <h3 class="bonus-amount">do 500 zł <span>premii</span></h3>
+                    <ul class="key-points">
+                        <li>Premia za aktywne bankowanie</li>
+                        <li>Korzyści do wyboru w aplikacji</li>
+                        <li>Płatności telefonem i zegarkiem</li>
+                    </ul>
+                </div>
+
+                <div class="card-action">
+                    <a href="TWÓJ_LINK_AFILIACYJNY_DLA_ALIOR" class="cta-button-small cta-alior" style="border-color: #a31a32; color: #fff; background: #a31a32;">
+                        Odbierz premię
+                    </a>
+                </div>
+            </div>
+
+            <style>
+                .cta-alior:hover {
+                    background: #851428 !important;
+                    border-color: #851428 !important;
+                }
+            </style>
+
+
+<div class="bank-card">
+                
+                <div class="bank-logo-container">
+                    <div style="display: flex; align-items: center; gap: 5px;">
+                        <div style="font-family: 'Inter', sans-serif; font-weight: 800; font-size: 1.2rem; color: #fff; line-height: 1;">
+                            CREDIT<br><span style="color: #4ade80;">AGRICOLE</span>
+                        </div>
+                        <div style="width: 3px; height: 30px; background: #4ade80; margin-left: 5px;"></div>
+                    </div>
+                </div>
+
+                <div class="card-details">
+                    <p class="promo-label" style="color: #4ade80;">Promocja: Nawet 555 zł premii</p>
+                    <h3 class="bonus-amount">555 zł <span>na start</span></h3>
+                    <ul class="key-points">
+                        <li>Premia za przeniesienie konta</li>
+                        <li>Bonusy za płatności kartą/telefonem</li>
+                        <li>Nowoczesna aplikacja CA24</li>
+                    </ul>
+                </div>
+
+                <div class="card-action">
+                    <a href="TWÓJ_LINK_AFILIACYJNY_DLA_CA" class="cta-button-small cta-ca" style="border-color: #4ade80; color: #4ade80;">
+                        Odbierz premię
+                    </a>
+                </div>
+            </div>
+
+            <style>
+                .cta-ca:hover {
+                    background: #4ade80 !important;
+                    color: #0f172a !important;
+                }
+            </style>
+
+
+<div class="bank-card">
+                
+                <div class="bank-logo-container">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="font-family: 'Inter', sans-serif; font-weight: 800; font-size: 1.5rem; color: #fff; letter-spacing: -1px;">
+                            Revolut
+                        </div>
+                        <div style="width: 8px; height: 8px; background: linear-gradient(135deg, #38bdf8, #b134eb); border-radius: 50%;"></div>
+                    </div>
+                </div>
+
+                <div class="card-details">
+                    <p class="promo-label" style="color: #cbd5e1;">Fintech: Standard & Premium</p>
+                    <h3 class="bonus-amount">Bonus <span>na start</span></h3>
+                    <ul class="key-points">
+                        <li>Darmowe konto i karta wirtualna</li>
+                        <li>Wymiana walut po kursie międzybankowym</li>
+                        <li>Inwestycje w akcje i krypto w jednej apce</li>
+                    </ul>
+                </div>
+
+                <div class="card-action">
+                    <a href="TWÓJ_LINK_AFILIACYJNY_DLA_REVOLUT" class="cta-button-small cta-revolut" style="border-color: #fff; color: #fff;">
+                        Załóż konto
+                    </a>
+                </div>
+            </div>
+
+            <style>
+                .cta-revolut:hover {
+                    background: #fff !important;
+                    color: #0f172a !important;
+                }
+            </style>
+
+
+<section class="faq-section" style="margin-top: 80px; padding-top: 40px; border-top: 1px solid #1e293b;">
+    <h2 class="section-title">Często zadawane pytania</h2>
+    
+    <div style="max-width: 800px; margin: 0 auto;">
+        <div class="faq-item" style="margin-bottom: 30px; background: #1e293b; padding: 25px; border-radius: 12px; border: 1px solid #334155;">
+            <h4 style="color: #38bdf8; margin-bottom: 10px; font-size: 1.2rem;">Czy otwieranie kont dla premii jest bezpieczne?</h4>
+            <p style="color: #cbd5e1; font-size: 0.95rem;">Tak. Wszystkie banki wymienione w naszym serwisie (jak PKO BP, mBank czy Santander) działają pod nadzorem KNF. Promocje to standardowe działania marketingowe banków, które zamiast na drogie reklamy w TV, wolą wydać budżet na nagrody dla nowych klientów.</p>
+        </div>
+
+        <div class="faq-item" style="margin-bottom: 30px; background: #1e293b; padding: 25px; border-radius: 12px; border: 1px solid #334155;">
+            <h4 style="color: #38bdf8; margin-bottom: 10px; font-size: 1.2rem;">Kiedy otrzymam obiecaną premię?</h4>
+            <p style="color: #cbd5e1; font-size: 0.95rem;">Każdy bank ma swój regulamin. Zazwyczaj premia wypłacana jest w miesiącu następującym po spełnieniu warunków (np. wykonaniu 5 płatności kartą). Szczegółowe daty zawsze znajdziesz w opisie danej promocji na stronie banku.</p>
+        </div>
+
+        <div class="faq-item" style="margin-bottom: 30px; background: #1e293b; padding: 25px; border-radius: 12px; border: 1px solid #334155;">
+            <h4 style="color: #38bdf8; margin-bottom: 10px; font-size: 1.2rem;">Czy muszę płacić podatek od nagrody?</h4>
+            <p style="color: #cbd5e1; font-size: 0.95rem;">W przypadku osób fizycznych, nagrody w promocjach bankowych są zazwyczaj zwolnione z podatku dochodowego (sprzedaż premiowa) lub bank odprowadza go za Ciebie. Otrzymujesz na konto pełną kwotę, o której piszemy.</p>
+        </div>
+
+        <div class="faq-item" style="margin-bottom: 30px; background: #1e293b; padding: 25px; border-radius: 12px; border: 1px solid #334155;">
+            <h4 style="color: #38bdf8; margin-bottom: 10px; font-size: 1.2rem;">Czy po odebraniu premii mogę zamknąć konto?</h4>
+            <p style="color: #cbd5e1; font-size: 0.95rem;">W większości przypadków – tak. O ile regulamin nie stanowi inaczej, po otrzymaniu premii możesz swobodnie dysponować kontem lub je zamknąć bez konieczności zwrotu bonusu. Zawsze jednak warto sprawdzić okres wypowiedzenia w danym banku.</p>
+        </div>
+    </div>
+</section>
+
+
+<section class="about-section" style="margin-top: 60px; padding: 40px; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-radius: 16px; border-left: 4px solid #4ade80;">
+    <h2 style="color: #fff; margin-bottom: 20px; font-size: 1.8rem;">O projekcie StrefaPremii.pl</h2>
+    <div style="color: #cbd5e1; font-size: 1rem; line-height: 1.8; max-width: 850px;">
+        <p style="margin-bottom: 15px;">
+            Witaj! Nazywam się Kamil Shott i od kilku lat zajmuję się wyszukiwaniem najlepszych okazji w polskim sektorze bankowym. Pomysł na <strong>Strefę Premii</strong> zrodził się z prostej obserwacji: banki wydają miliony na reklamy, ale najchętniej dzielą się pieniędzmi z tymi, którzy potrafią czytać regulaminy.
+        </p>
+        <p style="margin-bottom: 15px;">
+            Moim celem jest uproszczenie tego procesu dla Ciebie. Zamiast przeszukiwać dziesiątki stron bankowych, masz tutaj <strong>wyselekcjonowany ranking</strong> najciekawszych promocji z jasnymi warunkami gry. 
+        </p>
+        <p>
+            Działam transparentnie – jeśli zdecydujesz się założyć konto przez jeden z moich linków, bank może wypłacić mi drobną prowizję. Dla Ciebie oferta pozostaje identyczna (a często nawet lepsza!), a ja dzięki temu mogę dbać o to, by ten ranking był zawsze aktualny. Jak zdecydujesz się założyć konto w jednym z oferowanych banków wypłacę ci ekstra nagrodę.
+        </p>
+    </div>
+</section>
+
+
+
+ </main>
+    <footer>
+        <p>&copy; 2026 StrefaPremii.pl</p>
+        <p class="disclaimer">
+            Nota prawna: Współpracujemy z bankami w modelu afiliacyjnym, co oznacza, że możemy otrzymać prowizję, jeśli założysz konto z naszego polecenia.
+        </p>
+    </footer>
+
+</body>
+</html>
