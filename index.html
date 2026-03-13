@@ -142,7 +142,7 @@
 <body>
 
 
-<script>
+<!-- <script>
     var password = prompt("Strona testowa. Podaj hasło:");
     
     if (password === "wafelux12!") {
@@ -153,6 +153,15 @@
       alert("Błędne hasło!");
       document.body.innerHTML = "Brak dostępu.";
       document.body.style.display = "block";
+      window.stop();
+    }
+  </script> -->
+
+<script>
+    var password = prompt("Strona testowa. Podaj hasło:");
+    if (password !== "wafelux12!") {
+      document.body.innerHTML = "<h1 style='color:red;'>Błędne hasło!</h1><p>Odśwież stronę (F5), aby spróbować ponownie.</p>";
+      document.body.style.display = "flex"; // Żeby komunikat o błędzie też był na środku
       window.stop();
     }
   </script>
